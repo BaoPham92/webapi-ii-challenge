@@ -1,6 +1,7 @@
 // * PKGS / SETTINGS
 const express = require('express');
 const server = express();
+const dbRouter = require('./data/db-router');
 
 // * MIDDLEWARE
 server.use(express.json())
@@ -13,5 +14,8 @@ server.get('/', (req, res) => {
     `)
     res.end()
 })
+
+// * DEFAULT URL + ROUTES
+server.use('/api/posts', dbRouter);
 
 server.listen(5000, () => console.log(`LISTENING TO PORT 5000`))
