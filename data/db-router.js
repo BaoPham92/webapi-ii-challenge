@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
     res.end()
 })
 
-// ? GET (POSTS + ID's)
+// ? GET (POSTS + ID)
 router.get('/:id', async (req, res) => {
     const id = req.params.id
 
@@ -26,6 +26,20 @@ router.get('/:id', async (req, res) => {
         :
         res.status(404).json({ message: "The post with the specified ID does not exist." })
     res.end()
+})
+
+// ? GET (POSTS + ID + COMMENTS)
+router.get('/:id/comments', async (req, res) => {
+    const id = req.params.id
+
+    !!id === true ?
+        await db.findPostComments(id)
+            .then(comment => res.status(200).json(comment))
+            .catch(err => res.status(500).json({ error: "SOMETHING WENT WRONG" }))
+        :
+        res.status(404).json({ message: "The post with the specified ID does not exist." })
+    res.end()
+
 })
 
 module.exports = router;
