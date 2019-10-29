@@ -42,4 +42,20 @@ router.get('/:id/comments', async (req, res) => {
 
 })
 
+// ? POST (POST OBJ)
+router.post('/', async (req, res) => {
+    const { title, contents } = req.body
+
+    if (!!title === false || !!contents === false) {
+        res.status(400).json({ errorMessage: "Please provide title and contents for the post." })
+    } else {
+        await db.insert(req.body)
+            .then(post => res.status(201).json(req.body))
+            .catch(err => res.status(500).json({ error: "There was an error while saving the post to the database" }))
+    }
+
+    res.end()
+
+})
+
 module.exports = router;
